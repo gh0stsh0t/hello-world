@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="../3.3.7/css/bootstrap.min.css">
+	  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	  <script src="../3.3.7/js/bootstrap.min.js"></script>
+		<title>
+			Table magics
+		</title>
+		<style type="text/css">
+		img{
+				width: 20px;
+				height: 20px;
+			}
+			.hide{
+				display: none;
+			}
+			.container
+			{
+				padding-top: 10px;
+				width: 90%
+			}
+			.navbar {
+	    padding-top: 15px;
+	    padding-bottom: 15px;
+	    border: 0;
+	    border-radius: 0;
+	    margin-bottom: 0;
+	    font-size: 12px;
+	    letter-spacing: 5px;
+			}
+			.navbar-nav li a:hover {
+			    color: #1abc9c !important;
+			}
+			body {
+	    font: 400 15px "Montserrat", sans-serif;
+	    line-height: 1.8;
+	    
+			background-color: #34cbd1;
+			}
+			.bg-1{
+
+			color:#ffffff;
+			padding: 15px 25px;
+			}
+			.table{
+			color: #474e5d; /* Dark Blue */
+	    background-color: #ffffff;
+			}
+		</style>
+		<script type="text/javascript">
+			function edit(index)
+			{
+				var x=document.getElementById("jokelg");
+				var whoIs=['SC','ST','SU'];
+				for(i=0;i<whoIs.length;i++)
+				{
+					document.getElementById(whoIs[i]+'txT').value=document.getElementById(whoIs[i]+index).innerHTML;
+				}
+				document.getElementById('test').onclick=function(){
+					editor(index);
+				}
+				$('#jobitSingsong').modal();
+			}
+			function remover(index)
+			{
+				var row = document.getElementById('row'+index);
+    		row.parentNode.removeChild(row);
+			}
+			function editor(index)
+			{
+				var whoIs=['SC','ST','SU'];
+				for(i=0;i<whoIs.length;i++)
+				{
+					document.getElementById(whoIs[i]+index).innerHTML=document.getElementById(whoIs[i]+'txT').value;
+				}
+			}
+			function record()
+			{
+				var dataCol=document.getElementById('mainTable');
+				var lstIndex=document.getElementsByClassName("hide");
+				lstIndex=dataCol.rows.length;
+				var row=document.createElement("TR"); 
+				var front=document.createElement("TD");
+				if(lstIndex==1)
+				{
+					var content=lstIndex;
+					var magik = document.createTextNode(lstIndex);
+					front.id="hide"+content;
+				}
+				else
+					{
+						var content = dataCol.rows[lstIndex-1].cells[0].innerHTML;
+						content=parseInt(content)+1;
+						front.id="hide"+content;
+						var magik = document.createTextNode(content);
+					}
+				front.className="hide";
+				front.appendChild(magik);
+				row.appendChild(front);
+				row.id='row'+content;
+				var whoIs=['SC','ST','SU'];
+				for(var i=0;i<whoIs.length;i++)
+				{
+					var body=document.createElement("TD");
+					var laman = document.createTextNode(document.getElementById(whoIs[i]+'txt').value);
+					body.id=whoIs[i]+content;
+					body.appendChild(laman);
+					row.appendChild(body);
+				}
+				var last=document.createElement("TD");
+				var whatIs=['edit','delete'];
+				for(var i=0;i<whatIs.length;i++)
+				{
+					var btn = document.createElement("BUTTON");
+					btn.id=parseInt(content)+whatIs[i];
+					if(i==0)
+						btn.onclick=function(){
+							edit(content);
+						}
+					else
+						btn.onclick=function(){
+							remover(content);
+						}
+					btn.className="btn-xs btn btn-link"
+					btn.innerHTML="<img src='../Images/"+whatIs[i]+".png'>"
+					last.appendChild(btn);
+				}
+				row.appendChild(last);
+				dataCol.appendChild(row);
+			}
+
+		</script>
+	</head>
+	<body>
+		<nav class="navbar navbar-default" id="myPage">
+		  <div class="container">
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		      <a class="navbar-brand">Experiments of a CS Student &lt;Daigler Edition&gt;</a>
+		    </div>
+		    <div class="collapse navbar-collapse" id="myNavbar">
+		      <ul class="nav navbar-nav navbar-right">
+		        <li><a href="student.html">Students</a></li>
+		        <li><a href="religion.html">Religions</a></li>
+		        <li><a href="nationality.html">Nationalities</a></li>
+		        <li><a href="subject.html">Subject</a></li>
+		        <li class="active"><a href="program.html">Programs</a></li>
+		        <li><a href="grade.html">Grades</a></li>
+		        <li><a href="curriculum.html">Curriculum</a></li>
+		      </ul>
+		    </div>
+		  </div>
+		</nav>
+
+		<div class="container-fluid bg-1">
+		<div class="container row">
+			<button type="button" class="btn-xs btn btn-link col-md-offset-1" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><img src="../Images/add.png"></button>
+			<table class="table table-striped table-hover table-condensed col-md-offset-1" id="mainTable">
+				<tr>
+					<th class="hide">
+						#
+					</th>
+					<th>
+						Subject Code
+					</th>
+					<th>
+						Title
+					</th>
+					<th>
+						Units
+					</th>
+					<th>
+						&nbsp;
+					</th>
+				</tr>
+			</table>	
+		</div></div>
+
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+		  <div class="modal-dialog modal-md" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="exampleModalLabel">New Course</h4>
+		      </div>
+		      <div class="modal-body">
+			      <div class="row container-fluid">
+							<div class="col-md-3 col-md-offset-1 form-group">
+								<div class="form-inline">
+									<input type="text" class="form-control" id="SCtxt" placeholder="Course Code">
+									<input type="text" class="form-control" id="STtxt" placeholder="Title">
+									<input type="text" class="form-control" id="SUtxt" placeholder="Year">
+								</div>
+							</div>
+						</div>
+		      </div>
+		      <div class="modal-footer">
+						<button type="button" class="btn btn-success" onclick="record()" data-dismiss="modal">Submit</button>
+		        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+		<div class="modal fade" id="jobitSingsong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+		  <div class="modal-dialog modal-md" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="exampleModalLabel">Edit Course</h4>
+		      </div>
+		      <div class="modal-body">
+			      <div class="row container-fluid">
+							<div class="col-md-3 col-md-offset-1 form-group">
+								<div class="form-inline">
+									<input type="text" class="form-control" id="SCtxT" placeholder="Course Code">
+									<input type="text" class="form-control" id="STtxT" placeholder="Title">
+									<input type="text" class="form-control" id="SUtxT" placeholder="Year">
+								</div>
+							</div>
+						</div>
+		      </div>
+		      <div class="modal-footer">
+						<button type="button" class="btn btn-success" id="test" data-dismiss="modal">Edit</button>
+		        <button type="button" class="btn btn-danger" id="dilijoke" data-dismiss="modal">Cancel</button>
+		    		<p id="jokelg" class="hide"></p>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</body>
+</html>
